@@ -5,6 +5,7 @@
 - **Kullanım Koşulları (EULA):** https://yasin35002.github.io/norax-legal/terms.html
 - **Destek & Güvenlik:** https://yasin35002.github.io/norax-legal/support.html
 
-Windows kurulum dosyası (`NoraX-Setup-1.0.0.exe`) bu deponun [GitHub Releases](https://github.com/yasin35002/norax-legal/releases/latest) bölümünden dağıtılmaktadır.
+## İndirme Bağlantısını Güncelleme
+`download-config.js` dosyasındaki `downloadUrl` alanına MediaFire, Cloudflare R2, Dropbox (`?dl=1`) veya doğrudan `.exe` bağlantısını yapıştırmanız yeterlidir; sitedeki tüm indirme butonları otomatik güncellenir.
 
 İletişim: tekinayhan443@gmail.com
