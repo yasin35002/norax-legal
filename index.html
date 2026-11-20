@@ -304,17 +304,103 @@
       animation: fadeUp 0.9s 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both;
     }
 
+    /* Interactive Live Theme Switcher Bar for Hero Mockup */
+    .theme-pills {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px;
+      border-radius: 999px;
+      background: rgba(14, 16, 26, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      margin-bottom: 18px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+    .theme-pill {
+      border: none;
+      background: transparent;
+      color: var(--text-2);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 13px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+    }
+    .theme-pill:hover { color: var(--text); background: rgba(255, 255, 255, 0.06); }
+    .theme-pill.active {
+      background: rgba(158, 166, 255, 0.2);
+      color: #fff;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 14px rgba(99, 102, 241, 0.28);
+    }
+    .theme-dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+    /* Mockup live theme CSS custom overrides */
     .mockup-frame {
-      background: #09090e;
+      --m-rail: #06060a;
+      --m-side: #0d0e15;
+      --m-chat: #12131c;
+      --m-comp: #1a1c28;
+      --m-text: #f3f5ff;
+      --m-sub: #9ba3bd;
+      --m-accent: #9ea6ff;
+      --m-glow: rgba(79, 70, 229, 0.22);
+      background: var(--m-rail);
       border-radius: 22px;
-      border: 1px solid rgba(158, 166, 255, 0.2);
+      border: 1px solid rgba(158, 166, 255, 0.24);
       box-shadow:
-        0 35px 110px rgba(0, 0, 0, 0.78),
-        0 0 80px rgba(79, 70, 229, 0.18),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        0 40px 120px rgba(0, 0, 0, 0.82),
+        0 0 90px var(--m-glow),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14);
       overflow: hidden;
       text-align: left;
-      transition: transform 0.25s ease-out;
+      transition: transform 0.25s ease-out, box-shadow 0.35s ease, border-color 0.35s ease;
+      color: var(--m-text);
+    }
+    .mockup-frame[data-preview-theme="aurora"] {
+      --m-rail: #050912; --m-side: #09101f; --m-chat: #0c1528; --m-comp: #132038;
+      --m-accent: #5eead4; --m-glow: rgba(45, 212, 191, 0.28); border-color: rgba(94, 234, 212, 0.35);
+    }
+    .mockup-frame[data-preview-theme="nebula"] {
+      --m-rail: #080512; --m-side: #100922; --m-chat: #150d2d; --m-comp: #211645;
+      --m-accent: #c084fc; --m-glow: rgba(168, 85, 247, 0.32); border-color: rgba(192, 132, 252, 0.35);
+    }
+    .mockup-frame[data-preview-theme="terminal"] {
+      --m-rail: #020604; --m-side: #050c08; --m-chat: #08120c; --m-comp: #0f2116;
+      --m-accent: #4ade80; --m-glow: rgba(74, 222, 128, 0.26); border-color: rgba(74, 222, 128, 0.35);
+    }
+    .mockup-frame[data-preview-theme="sakura"] {
+      --m-rail: #f4e5eb; --m-side: #fbf1f5; --m-chat: #fffbfd; --m-comp: #f7e7ee;
+      --m-text: #2d1321; --m-sub: #6c4055; --m-accent: #be185d; --m-glow: rgba(236, 72, 153, 0.28);
+      border-color: rgba(190, 24, 93, 0.32);
+    }
+    .mockup-frame .mock-titlebar, .mockup-frame .mock-rail { background: var(--m-rail); transition: background 0.3s ease; }
+    .mockup-frame .mock-channels, .mockup-frame .mock-members { background: var(--m-side); transition: background 0.3s ease; }
+    .mockup-frame .mock-chat { background: var(--m-chat); transition: background 0.3s ease; }
+    .mockup-frame .mock-composer { background: var(--m-comp); transition: background 0.3s ease; }
+    .mockup-frame[data-preview-theme="sakura"] .msg-content .text,
+    .mockup-frame[data-preview-theme="sakura"] .mock-titlebar .left,
+    .mockup-frame[data-preview-theme="sakura"] .chan-item.active { color: #2d1321; }
+    .mockup-frame[data-preview-theme="sakura"] .mock-user-dock { background: #f4e5eb; }
+
+    /* Drifting Ambient Orbs */
+    .hero-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(110px);
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.38;
+      animation: orbDrift 16s ease-in-out infinite;
+    }
+    @keyframes orbDrift {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      50% { transform: translate3d(28px, -22px, 0) scale(1.07); }
     }
 
     .mock-titlebar {
@@ -588,17 +674,30 @@
       gap: 18px;
     }
     .card {
+      position: relative;
+      overflow: hidden;
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 28px;
-      backdrop-filter: blur(18px);
+      backdrop-filter: blur(22px);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 14px 36px rgba(0, 0, 0, 0.35);
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 50%), rgba(158, 166, 255, 0.16), transparent 65%);
+      transition: opacity 0.25s ease;
+    }
+    .card:hover::before { opacity: 1; }
     .card:hover {
       transform: translateY(-4px);
       border-color: var(--border-glow);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 24px 56px rgba(0, 0, 0, 0.5);
     }
     .card.span-2 { grid-column: span 2; }
     .card-icon {
@@ -718,6 +817,8 @@
 </head>
 <body>
   <div class="ambient-bg"></div>
+  <div class="hero-orb" style="top:-120px;left:12%;width:460px;height:460px;background:radial-gradient(circle,rgba(99,102,241,0.55),transparent 70%)"></div>
+  <div class="hero-orb" style="top:18%;right:8%;width:420px;height:420px;background:radial-gradient(circle,rgba(34,211,238,0.38),transparent 70%);animation-delay:-7s"></div>
   <div class="grid-overlay"></div>
 
   <header>
@@ -725,7 +826,7 @@
       <a href="index.html" class="brand">
         <img src="assets/app-icon.png" alt="NoraX Logo">
         <span>NoraX</span>
-        <span class="pill">v2.0 Ultra</span>
+        <span class="pill">v2.1 Ultra</span>
       </a>
       <nav class="links" aria-label="NoraX">
         <a href="#features" data-tr="Özellikler" data-en="Features">Özellikler</a>
@@ -736,7 +837,7 @@
       </nav>
       <div class="nav-actions">
         <button id="langToggle" class="lang-btn" type="button">EN</button>
-        <a class="btn-sm js-download-link" href="#download" download="NoraX-Setup-2.0.0.exe">
+        <a class="btn-sm js-download-link" href="#download" download="NoraX-Setup-2.1.0.exe">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           <span data-tr="İndir (.exe)" data-en="Download (.exe)">İndir (.exe)</span>
         </a>
@@ -749,7 +850,7 @@
       <div class="container">
         <div class="hero-badge">
           <span class="dot"></span>
-          <span data-tr="NoraX PC v2.0 Ultra Yayında · Oyun İçi Overlay · 8 Tema · Watch Party" data-en="NoraX PC v2.0 Ultra Is Live · In-Game Overlay · 8 Themes · Watch Party">NoraX PC v2.0 Ultra Yayında · Oyun İçi Overlay · 8 Tema · Watch Party</span>
+          <span data-tr="NoraX PC v2.1 Ultra Yayında · Luminous Spatial Glass · Oyun İçi Overlay" data-en="NoraX PC v2.1 Ultra Live · Luminous Spatial Glass · In-Game Overlay">NoraX PC v2.1 Ultra Yayında · Luminous Spatial Glass · Oyun İçi Overlay</span>
         </div>
 
         <h1>
@@ -762,7 +863,7 @@
         </p>
 
         <div class="cta-row">
-          <a class="btn-primary js-download-link" href="#download" download="NoraX-Setup-2.0.0.exe">
+          <a class="btn-primary js-download-link" href="#download" download="NoraX-Setup-2.1.0.exe">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3 5.557L10.355 4.55v7.09H3V5.557zm8.268-1.14L21 3v8.64h-9.732V4.417zM3 12.487h7.355v7.09L3 18.57v-6.083zm8.268 0H21V21l-9.732-1.387v-7.126z"/></svg>
             <span data-tr="Windows için İndir (.exe)" data-en="Download for Windows (.exe)">Windows için İndir (.exe)</span>
           </a>
@@ -774,9 +875,18 @@
         <div class="download-meta">
           <span>Windows 10 / 11 (64-bit)</span>
           <span>•</span>
-          <span>NoraX-Setup-2.0.0.exe</span>
+          <span>NoraX-Setup-2.1.0.exe</span>
           <span>•</span>
           <span data-tr="Ücretsiz · Sıfır Reklam · Otomatik Güncelleme" data-en="Free · Zero Ads · Auto-Updates">Ücretsiz · Sıfır Reklam · Otomatik Güncelleme</span>
+        </div>
+
+        <!-- Live Interactive Theme Preview Bar -->
+        <div class="theme-pills" role="tablist" aria-label="Theme Preview">
+          <button type="button" class="theme-pill active" data-theme-pick="graphite"><span class="theme-dot" style="background:#9ea6ff"></span>Graphite</button>
+          <button type="button" class="theme-pill" data-theme-pick="aurora"><span class="theme-dot" style="background:#2dd4bf"></span>Aurora</button>
+          <button type="button" class="theme-pill" data-theme-pick="nebula"><span class="theme-dot" style="background:#c084fc"></span>Nebula</button>
+          <button type="button" class="theme-pill" data-theme-pick="terminal"><span class="theme-dot" style="background:#4ade80"></span>Terminal</button>
+          <button type="button" class="theme-pill" data-theme-pick="sakura"><span class="theme-dot" style="background:#ec4899"></span>Sakura</button>
         </div>
 
         <!-- Interactive Desktop Mockup -->
@@ -949,9 +1059,9 @@
             <p data-tr="Windows 10 ve Windows 11 (64-bit) için resmi kurulum dosyasını indir. Mevcut NoraX hesabınla giriş yap veya yeni hesap oluştur." data-en="Download the official installer for Windows 10 and Windows 11 (64-bit). Sign in with your NoraX account or create a new one.">
               Windows 10 ve Windows 11 (64-bit) için resmi kurulum dosyasını indir. Mevcut NoraX hesabınla giriş yap veya yeni hesap oluştur.
             </p>
-            <a class="btn-primary js-download-link" href="#download" download="NoraX-Setup-2.0.0.exe">
+            <a class="btn-primary js-download-link" href="#download" download="NoraX-Setup-2.1.0.exe">
               <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              <span data-tr="NoraX-Setup-2.0.0.exe İndir" data-en="Download NoraX-Setup-2.0.0.exe">NoraX-Setup-2.0.0.exe İndir</span>
+              <span data-tr="NoraX-Setup-2.1.0.exe İndir" data-en="Download NoraX-Setup-2.1.0.exe">NoraX-Setup-2.1.0.exe İndir</span>
             </a>
           </div>
           <div class="steps">
@@ -959,7 +1069,7 @@
               <div class="step-num">1</div>
               <div>
                 <strong data-tr="Kurulum dosyasını indir" data-en="Download the installer">Kurulum dosyasını indir</strong>
-                <span data-tr="NoraX-Setup-2.0.0.exe dosyasını çalıştır." data-en="Run NoraX-Setup-2.0.0.exe.">NoraX-Setup-2.0.0.exe dosyasını çalıştır.</span>
+                <span data-tr="NoraX-Setup-2.1.0.exe dosyasını çalıştır." data-en="Run NoraX-Setup-2.1.0.exe.">NoraX-Setup-2.1.0.exe dosyasını çalıştır.</span>
               </div>
             </div>
             <div class="step">
@@ -1005,7 +1115,7 @@
     document.querySelectorAll('.js-download-link').forEach((link) => {
       if (cfg.downloadUrl) {
         link.setAttribute('href', cfg.downloadUrl);
-        link.setAttribute('download', cfg.fileName || 'NoraX-Setup-2.0.0.exe');
+        link.setAttribute('download', cfg.fileName || 'NoraX-Setup-2.1.0.exe');
         if (/mediafire\.com/i.test(cfg.downloadUrl)) {
           link.setAttribute('target', '_blank');
           link.setAttribute('rel', 'noopener');
@@ -1034,6 +1144,24 @@
         frame.style.transform = 'rotateY(0deg) rotateX(0deg)';
       });
     }
+
+    // Live interactive theme switcher for desktop preview
+    document.querySelectorAll('.theme-pill').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.theme-pill').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        if (frame) frame.setAttribute('data-preview-theme', btn.getAttribute('data-theme-pick') || 'graphite');
+      });
+    });
+
+    // Cursor-tracking luminous spotlight on Bento cards
+    document.querySelectorAll('.card').forEach((card) => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+      });
+    });
 
     // TR / EN toggle
     const langBtn = document.getElementById('langToggle');
